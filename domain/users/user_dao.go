@@ -1,6 +1,7 @@
 package users
 
 import (
+	"bookstore-users-api/datasources/mysql/users_db"
 	"bookstore-users-api/utils/date_utils"
 	"bookstore-users-api/utils/errors"
 	"fmt"
@@ -22,6 +23,9 @@ func something() {
 }
 
 func (user *User) Get() *errors.RestErr {
+	if err := users_db.Client.Ping(); err != nil {
+		panic(err)
+	}
 	result := usersDB[user.Id]
 	if result == nil {
 		return errors.NewNotFoundError(fmt.Sprintf("user nod fond",user.Id))
