@@ -24,10 +24,10 @@ var(
 )
 
 func init() {
-	datasourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8",
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8",
 		username, password, host, schema)
 	var err error
-	Client,err := sql.Open("mysql",datasourceName)
+	Client,err := sql.Open("mysql",dataSourceName)
 	if err != nil {
 		panic(err)
 	}
