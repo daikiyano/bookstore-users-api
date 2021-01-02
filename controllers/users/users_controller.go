@@ -37,6 +37,7 @@ func CreateUser(c *gin.Context) {
 
 
 func GetUser(c *gin.Context) {
+	// int型に変換し、userIdを取得
 	userId,userErr := strconv.ParseInt(c.Param("user_id"),10,64)
 	if userErr != nil {
 		err := errors.NewBadRequestError("invalid user id should be anumber")

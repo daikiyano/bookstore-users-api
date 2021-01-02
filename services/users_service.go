@@ -6,6 +6,7 @@ import (
 )
 
 func GetUser(userId int64) (*users.User, *errors.RestErr) {
+	//ポインターを使用し、userIdの値を変更する
 	result := &users.User{Id: userId}
 	if err := result.Get(); err != nil {
 		return nil, err
