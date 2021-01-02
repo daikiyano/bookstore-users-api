@@ -13,11 +13,13 @@ import (
 func CreateUser(c *gin.Context) {
 	var user users.User
 	fmt.Println(user)
+
 	//{0    }
 	//リクエストBodyの読み込み
 	//json.UnmarshalでUser構造体に格納
 	//指定されたバインディングエンジンを使用して、渡された構造体ポインターをバインドする。
 	if err := c.ShouldBindJSON(&user); err != nil {
+		fmt.Println("heyyyyyyyyyyyyy")
 		fmt.Println(err)
 		//無効なJSONの場合、エラー返し
 		restErr := errors.NewBadRequestError("invalid json body")

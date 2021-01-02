@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	queryInsertUser = "INSERT INTO users(first_name,last_name,email,date_created) VALUES(?,?,?,?);"
+	queryInsertUser = "INSERT INTO users(first_name, last_name, email, date_created) VALUES(?, ?, ?, ?);"
 )
 
 var (
@@ -43,10 +43,12 @@ func (user *User) Get() *errors.RestErr {
 }
 
 func (user *User) Save() *errors.RestErr {
+	println("Resecdc",user)
 	stmt,err := users_db.Client.Prepare(queryInsertUser)
 	if err != nil {
 		return errors.NewInternalServerError(err.Error())
 	}
+
 	//必ずcloseする
 	defer stmt.Close()
 	user.DateCreated = date_utils.GetNowString()
