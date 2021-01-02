@@ -5,9 +5,11 @@ import (
 	"bookstore-users-api/utils/date_utils"
 	"bookstore-users-api/utils/errors"
 	"fmt"
+	"strings"
 )
 
 const (
+	indexUniqueEmail = "email_UNIQUE"
 	queryInsertUser = "INSERT INTO users(first_name, last_name, email, date_created) VALUES(?, ?, ?, ?);"
 )
 
@@ -55,6 +57,10 @@ func (user *User) Save() *errors.RestErr {
 
 	insertResult,err :=  stmt.Exec(user.FirstName,user.LastName,user.Email,user.DateCreated)
 	if err != nil {
+		if strings.Contains(err.Error(),indexUniqueEmail) {
+			return errors.NewBadRequestError(
+				fmt.Sprintf("emails %s already exists",user.Email))
+		}
 		return errors.NewInternalServerError(
 			fmt.Sprintf("error when trying to save user: %s",err.Error()))
 	}
