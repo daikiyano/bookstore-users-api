@@ -12,6 +12,7 @@ const (
 	errorNoRows = "no rows in result set"
 	queryInsertUser = "INSERT INTO users(first_name, last_name, email, date_created) VALUES(?, ?, ?, ?);"
 	queryGetUser = "SELECT id,first_name,last_name,email,date_created FROM users WHERE id=?"
+	queryUpdateUser = "UPDATE users SET first_name=?,last_name=?,email=? WHERE id=?;"
 
 )
 
@@ -97,5 +98,18 @@ func (user *User) Save() *errors.RestErr {
 		//	fmt.Sprintf("error when trying to save user: %s",err.Error()))
 	}
 	user.Id = userId
+	return nil
+}
+
+func (user *User) Update() *errors.RestErr {
+	stmt,err := users_db.Client.Prepare(queryUpdateUser)
+	if err != nil {
+		return errors.NewInternalServerError(err.Error())
+	}
+	defer stmt.Close()
+	_,err = stmt.Exec(user.FirstName,user.LastName,user.Email,user.Id)
+	if err != nil {
+		return mysql_utils.ParseError(err)
+	}
 	return nil
 }
