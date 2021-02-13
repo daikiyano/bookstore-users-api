@@ -18,6 +18,8 @@ type User struct {
 	Status string `json:"status"`
 	Password string `json:"password"`
 }
+type Users []User
+
 
 func (user *User) Validate() *errors.RestErr {
 	user.FirstName = strings.TrimSpace(user.FirstName)
